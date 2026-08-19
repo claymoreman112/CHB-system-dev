@@ -14,7 +14,7 @@ let html = "";
 products.forEach(function(product, index,){
     html += `<div class = "bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg flex flex-col sm:flex-row justify-between p-4 hover:bg-gray-200 mt-4">
                 <p class ="font-semibold text center sm:text-left font-arial">${product.name}</p>
-                <p class = "text-sm text-gray-800">php${product.price} / ${product.unit}</p>
+                <p class = "text-sm text-gray-800">₱${product.price} / ${product.unit}</p>
                     <button class = "rounded-lg bg-gray-300 p-2 shadow-[0_0_10px_rgba(0,0,0,0.2)] hover:bg-gray-400" data-index="${index}">Add</button>
 
             </div>`
@@ -69,11 +69,49 @@ function renderCart(){
 
         cartHtml += `<div class = " bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg  flex flex-col sm:flex-row justify-between p-4 hover:bg-gray-200 mt-4">
             <p class = "text-xl font-semibold m-4">${item.name} (${item.quantity} ${item.unit})</p>
-            <p class = "text-2xl font-extrabold m-4">php${subtotal}</p>
-            <button data-remove-index="${index}" class="text-red-600 font-bold px-3 py-1 rounded-lg hover:bg-red-100">Remove</button>
+            <p class = "text-2xl font-extrabold m-4">₱${subtotal}</p>
+            <button data-remove-index="${index}" class="text-red-600 font-bold p-2 rounded-lg text-2xl hover:bg-red-100">X</button>
         </div>`
     });
 
     cartContainer.innerHTML = cartHtml;
-    document.getElementById("cart-total").innerText = "Total: php" + total;
+    document.getElementById("cart-total").innerText = "Total: ₱" + total;
 }
+
+let checkoutBtn = document.getElementById("checkout-btn");
+let receiptModal = document.getElementById("receipt-modal");
+let receiptList = document.getElementById("receipt-list");
+let newOrderBtn = document.getElementById("new-order-btn");
+
+
+checkoutBtn.addEventListener("click", function(){
+    if(cart.length === 0){
+        alert("Order is empty. Add Products before checking out");
+        return;
+    }
+
+    let receiptHtml = "";
+    let total = 0;
+
+    cart.forEach(function(item){
+        let subtotal = item.price * item.quantity
+        total += subtotal;
+
+        receiptHtml += `<div class ="flex justify-between py-2">
+        <p>${item.name} (${item.quantity} ${item.unit})</p>
+        <p class="font-semibold">₱${subtotal}</p>
+    </div>`
+    });
+
+    receiptList.innerHTML = receiptHtml;
+    document.getElementById("receipt-total").innerText = "Total: ₱" + total;
+
+    receiptModal.classList.remove("hidden");
+});
+
+newOrderBtn.addEventListener("click", function(){
+    cart = [];
+    renderCart();
+    receiptModal.classList.add("hidden");
+});
+
