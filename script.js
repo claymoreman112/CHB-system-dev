@@ -24,6 +24,8 @@ products.forEach(function(product, index,){
 container.innerHTML = html;
 
 let cart = [];
+let orderHistory = [];
+let orderCounter = 1;
 
 cartContainer.addEventListener("click", function(event){
     if(event.target.dataset.removeIndex !== undefined){
@@ -78,6 +80,30 @@ function renderCart(){
     document.getElementById("cart-total").innerText = "Total: ₱" + total;
 }
 
+function renderOrderHistory(){
+    let historyCounter = document.getElementById("order-history-list");
+    let historyHtml = "";
+
+    orderHistory.forEach(function(order){
+        let itemsList = order.items.map(function(item){
+            return item.name + "(" + item.quantity + ")";
+        }).join(",");
+        
+        historyHtml += `<div class="p-4">
+        <div class="flex justify-between font-semibold">
+        <p>Order #${order.id}</p>
+        <p>₱${order.total}</p>
+        </div>
+        <p class="text-sm text-gray-600">${order.date}</p>
+        <p class="text-sm text-gray-800 mt-1">${itemsList}</p>
+        </div>`
+
+
+    })
+
+    historyCounter.innerHTML = historyHtml;
+}
+
 let checkoutBtn = document.getElementById("checkout-btn");
 let receiptModal = document.getElementById("receipt-modal");
 let receiptList = document.getElementById("receipt-list");
@@ -103,10 +129,22 @@ checkoutBtn.addEventListener("click", function(){
     </div>`
     });
 
+    let order ={
+    id: orderCounter,
+    date: new Date().toLocaleString(),
+    items: [...cart],
+    total: total
+};
+
+orderHistory.push(order);
+orderCounter++;
+
+
     receiptList.innerHTML = receiptHtml;
     document.getElementById("receipt-total").innerText = "Total: ₱" + total;
 
     receiptModal.classList.remove("hidden");
+    renderOrderHistory();
 });
 
 newOrderBtn.addEventListener("click", function(){
@@ -114,4 +152,5 @@ newOrderBtn.addEventListener("click", function(){
     renderCart();
     receiptModal.classList.add("hidden");
 });
+
 
