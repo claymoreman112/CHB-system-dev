@@ -11,9 +11,19 @@ let products = [
 let container = document.getElementById("products-list");
 let cartContainer = document.getElementById("cart-list");
 
+
+
 function renderProducts(){
 let html = "";
 products.forEach(function(product, index,){
+    if(isAdminMode){
+        html += `<div class="bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg flex flex-col sm:flex-row justify-between items-center gap-2 p-4 hover:bg-gray-200 mt-4">
+                <input type="text" value="${product.name}" data-field="name" data-row-index="${index}" class="border rounded p-1 flex-1"/>
+                <input type="number" value="${product.price}" data-field="price" data-row-index="${index}" class="border rounded p-1 w-20"/>
+                <input type="number" value="${product.stock}" data-field="stock" data-row-index="${index}" class="border rounded p-1 w-20"/>
+                <button data-save-index="${index}" class="rounded-lg bg-gray-300 p-2 shadow hover:bg-gray-400">Save</button>
+            </div>`
+    } else {
     html += `<div class = "bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg flex flex-col sm:flex-row justify-between p-4 hover:bg-gray-200 mt-4">
                 <p class ="font-semibold text center sm:text-left font-arial">${product.name}</p>
                 <p class = "text-sm text-gray-800">₱${product.price} / ${product.unit}</p>
@@ -21,16 +31,25 @@ products.forEach(function(product, index,){
                     <button class = "rounded-lg bg-gray-300 p-2 shadow-[0_0_10px_rgba(0,0,0,0.2)] hover:bg-gray-400" data-index="${index}">Add</button>
 
             </div>`
-
+    }
 })
 container.innerHTML = html;
 }
 
-renderProducts();
+
 
 let cart = [];
 let orderHistory = [];
 let orderCounter = 1;
+let isAdminMode = false;
+
+let adminToggleBtn = document.getElementById("admin-toggle-btn");
+adminToggleBtn.addEventListener("click", function(){
+    isAdminMode =  !isAdminMode;
+    renderProducts();
+})
+
+renderProducts();
 
 cartContainer.addEventListener("click", function(event){
     if(event.target.dataset.removeIndex !== undefined){
@@ -40,8 +59,10 @@ cartContainer.addEventListener("click", function(event){
     }
 });
 
+
+
 container.addEventListener("click", function(event){
-    if(event.target.tagName === "BUTTON"){
+    if(event.target.dataset.index !== undefined){
         let index = parseInt(event.target.dataset.index);
         let product = products[index];
 
@@ -68,7 +89,41 @@ container.addEventListener("click", function(event){
         cart.push({name: product.name, price: product.price, unit: product.unit, quantity: qty, productIndex: index});
         renderCart();
     }
+
+    if(event.target.dataset.saveIndex !== undefined){
+        let index = parseInt(event.target.dataset.saveIndex);
+        let row = event.target.closest("div");
+
+        let newName = row.querySelector('input[data-field="name"]').value.trim();
+        let newPrice = parseFloat(row.querySelector('input[data-field="price"]').value); 
+        let newStock = parseInt(row.querySelector('input[data-field="stock"]').value);
+
+        if(newName === ""){
+            alert("Product name cannot be empty");
+            return;
+        }
+
+        if(isNaN(newPrice) || newPrice <= 0){
+            alert("Please enter a valid price");
+            return;
+        }
+
+        if(isNaN(newStock) || newStock <= 0){
+            alert("Please enter a valid stock");
+            return;
+        }
+
+        products[index].name = newName;
+        products[index].price = newPrice;
+        products[index].stock = newStock;
+
+
+        renderProducts();
+
+    }
 });
+
+
 
 function renderCart(){
     let cartContainer = document.getElementById("cart-list");
