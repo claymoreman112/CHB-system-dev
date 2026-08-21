@@ -1,27 +1,32 @@
 let products = [
-    {name: "Standard 4-inch Hollow-Blocks", price: 16, unit: "piece"},
-    {name: "Standard 6-inch Hollow-Blocks", price: 18, unit: "piece"},
-    {name: "Reinforced 4-inch Hollow-Blocks", price: 18, unit: "piece"},
-    {name: "Reinforced 6-inch Hollow-Blocks", price: 20, unit: "piece"},
-    {name: "Concrete Hollow-Blocks", price: 22, unit: "piece"}
+    {name: "Standard 4-inch Hollow-Blocks", price: 16, unit: "piece", stock: 500},
+    {name: "Standard 6-inch Hollow-Blocks", price: 18, unit: "piece", stock: 500},
+    {name: "Reinforced 4-inch Hollow-Blocks", price: 18, unit: "piece", stock: 500},
+    {name: "Reinforced 6-inch Hollow-Blocks", price: 20, unit: "piece", stock: 500},
+    {name: "Concrete Hollow-Blocks", price: 22, unit: "piece", stock: 500}
 ]
 
 
 
 let container = document.getElementById("products-list");
 let cartContainer = document.getElementById("cart-list");
+
+function renderProducts(){
 let html = "";
 products.forEach(function(product, index,){
     html += `<div class = "bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg flex flex-col sm:flex-row justify-between p-4 hover:bg-gray-200 mt-4">
                 <p class ="font-semibold text center sm:text-left font-arial">${product.name}</p>
                 <p class = "text-sm text-gray-800">₱${product.price} / ${product.unit}</p>
+                <p class = "text-sm text-gray-800 font-semibold">Stock:${product.stock}</p>
                     <button class = "rounded-lg bg-gray-300 p-2 shadow-[0_0_10px_rgba(0,0,0,0.2)] hover:bg-gray-400" data-index="${index}">Add</button>
 
             </div>`
 
 })
-
 container.innerHTML = html;
+}
+
+renderProducts();
 
 let cart = [];
 let orderHistory = [];
@@ -37,7 +42,7 @@ cartContainer.addEventListener("click", function(event){
 
 container.addEventListener("click", function(event){
     if(event.target.tagName === "BUTTON"){
-        let index = event.target.dataset.index;
+        let index = parseInt(event.target.dataset.index);
         let product = products[index];
 
         let qty = prompt("How many " + product.unit + "(s) of " + product.name + "?");
@@ -55,7 +60,12 @@ container.addEventListener("click", function(event){
             return;
         }
 
-        cart.push({name: product.name, price: product.price, unit: product.unit, quantity: qty});
+        if(qty > product.stock){
+            alert("Only " + product.stock + " " + product.unit + "(s) available")
+            return;
+        }
+
+        cart.push({name: product.name, price: product.price, unit: product.unit, quantity: qty, productIndex: index});
         renderCart();
     }
 });
@@ -123,11 +133,15 @@ checkoutBtn.addEventListener("click", function(){
         let subtotal = item.price * item.quantity
         total += subtotal;
 
+        products[item.productIndex].stock -= item.quantity;
+
         receiptHtml += `<div class ="flex justify-between py-2">
         <p>${item.name} (${item.quantity} ${item.unit})</p>
         <p class="font-semibold">₱${subtotal}</p>
     </div>`
     });
+
+    renderProducts();
 
     let order ={
     id: orderCounter,
