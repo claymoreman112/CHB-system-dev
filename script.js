@@ -225,11 +225,12 @@ function renderOrderHistory(){
         
         historyHtml += `<div class="p-4">
         <div class="flex justify-between font-semibold">
-        <p>Order #${order.id}</p>
+        <p>Order #${order.id}${order.orderName ? " - " + order.orderName : ""}</p>
         <p>₱${order.total}</p>
         </div>
-        <p class="text-sm text-gray-600">${order.date}</p>
+        <p class="text-sm text-gray-600">${order.date} • ${order.workerName} • ${order.paymentMethod}</p>
         <p class="text-sm text-gray-800 mt-1">${itemsList}</p>
+        ${order.notes ? `<p class="text-sm text-gray-500 italic mt-1">Note: ${order.notes}</p>` : ""}
         </div>`
 
 
@@ -242,6 +243,7 @@ let checkoutBtn = document.getElementById("checkout-btn");
 let receiptModal = document.getElementById("receipt-modal");
 let receiptList = document.getElementById("receipt-list");
 let newOrderBtn = document.getElementById("new-order-btn");
+let summarizeBtn = document.getElementById("summarize-order");
 
 
 checkoutBtn.addEventListener("click", function(){
@@ -257,40 +259,63 @@ checkoutBtn.addEventListener("click", function(){
         let subtotal = item.price * item.quantity
         total += subtotal;
 
-        let product = products.find(function(p){ return p.id === item.productId;});
-
-        product.stock -= item.quantity;
-
         receiptHtml += `<div class ="flex justify-between py-2">
         <p>${item.name} (${item.quantity} ${item.unit})</p>
         <p class="font-semibold">₱${subtotal}</p>
     </div>`
     });
 
-    renderProducts();
-
-    let order ={
-    id: orderCounter,
-    date: new Date().toLocaleString(),
-    items: [...cart],
-    total: total
-};
-
-orderHistory.push(order);
-orderCounter++;
-
-
     receiptList.innerHTML = receiptHtml;
     document.getElementById("receipt-total").innerText = "Total: ₱" + total;
 
     receiptModal.classList.remove("hidden");
-    renderOrderHistory();
 });
 
-newOrderBtn.addEventListener("click", function(){
+
+summarizeBtn.addEventListener("click", function(){
+    let orderName = document.getElementById("order-name").value.trim();
+    let workerName = document.getElementById("worker-name").value.trim();
+    let paymentMethod = document.getElementById("payment-method").value;
+    let orderNotes = document.getElementById("order-notes").value.trim();
+
+    if(workerName === ""){
+        alert("Please enter the worker's name.");
+        return;
+    }
+
+    let total = 0;
+
+    cart.forEach(function(item){
+        let subtotal = item.price * item.quantity;
+        total += subtotal;
+
+        let product = products.find(function(p){ return p.id === item.productId; });
+        product.stock -= item.quantity;
+    });
+
+    renderProducts();
+
+    let order = {
+        id: orderCounter,
+        date: new Date().toLocaleString(),
+        items: [...cart],
+        total: total,
+        orderName: orderName,
+        workerName: workerName,
+        paymentMethod: paymentMethod,
+        notes: orderNotes
+    };
+
+    orderHistory.push(order);
+    orderCounter++;
+    renderOrderHistory();
+
     cart = [];
     renderCart();
+
+    document.getElementById("order-name").value = "";
+    document.getElementById("worker-name").value = "";
+    document.getElementById("order-notes").value = "";
+
     receiptModal.classList.add("hidden");
 });
-
-

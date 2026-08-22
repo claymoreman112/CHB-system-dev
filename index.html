@@ -38,9 +38,10 @@
             Total: ₱0
             
         </div>
-        <div class="p-2 m-2 flex justify-end">
-            <button id="checkout-btn" class="p-2 bg-gray-400 rounded-lg shadow-lg hover:bg-gray-200 text-2  xl border-2 border-black">Confirm</button></div>
-        
+        <div class="p-2 flex justify-end">
+            <button id="checkout-btn" class="p-2 bg-gray-400 rounded-lg shadow-lg hover:bg-gray-200 text-2  xl border-2 border-black">Proceed</button></div> 
+
+
     </div>
 
 </div>
@@ -48,11 +49,21 @@
 <div id="receipt-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4">
     <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-sm">
         <h2 class="text-2xl font-serif font-bold border-b-2 border-gray-200 pb-2 mb-2">Order summary</h2>
+                <input type="text" id="order-name" placeholder="Order name" class="border rounded p-2 w-full"/>
+    <input type="text" id="worker-name" placeholder="Worker name" class="border rounded p-2 w-full"/>
+    <label for="payment-method">Payment Method</label>
+    <select id="payment-method" name="payment-method">
+        <option value="Gcash">Gcash</option>
+        <option value="Cash">Cash</option>
+        <option value="Bank">Bank</option>
+        <option value="Installment">Installment</option>
+    </select>
+    <input type="text" id="order-notes" placeholder="Remark" class="border rounded p-2 w-full"/>
         <div id="receipt-list" class="divide-y divide-gray-200">
 
         </div>
         <div id="receipt-total" class="text-xl font-bold text-right mt-4 border-t-2 border-gray-200 pt-2">Total: ₱0</div>
-        <button id="new-order-btn" class="w-full mt-6 bg-gray-500 text-white font-bold py-3 rounded-xl hover:bg-gray-200">New Order</button>
+        <button id="summarize-order" class="w-full mt-6 bg-gray-500 text-white font-bold py-3 rounded-xl hover:bg-gray-200">Confirm</button>
 
     </div>
 
