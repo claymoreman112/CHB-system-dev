@@ -309,6 +309,7 @@ summarizeBtn.addEventListener("click", function(){
     orderHistory.push(order);
     orderCounter++;
     renderOrderHistory();
+    renderSummary();
 
     cart = [];
     renderCart();
@@ -319,3 +320,80 @@ summarizeBtn.addEventListener("click", function(){
 
     receiptModal.classList.add("hidden");
 });
+
+let summaryToggleBtn = document.getElementById("summary-toggle-btn");
+let summaryPanel = document.getElementById("summary-panel");
+
+summaryToggleBtn.addEventListener("click", function(){
+    summaryPanel.classList.toggle("hidden");
+    renderSummary();
+});
+
+function renderSummary(){
+    if(orderHistory.length === 0){
+        summaryPanel.innerHTML = `<p class="text-gray-600">No orders yet.</p>`;
+        return;
+    }
+
+    let productTotals = {};
+    let revenueByDate = {};
+    let overallRevenue = 0;
+
+    orderHistory.forEach(function(order){
+        overallRevenue += order.total;
+
+        let dateOnly = order.date.split(",")[0];
+
+        if(revenueByDate[dateOnly] === undefined){
+            revenueByDate[dateOnly] = 0;
+        }
+        revenueByDate[dateOnly] += order.total;
+
+        order.items.forEach(function(item){
+            if(productTotals[item.name] === undefined){
+                productTotals[item.name] = 0;
+            }
+            productTotals[item.name] += item.quantity;
+        });
+    });
+
+    let bestSellers = Object.keys(productTotals).map(function(name){
+        return { name: name, quantity: productTotals[name] };
+    });
+
+    bestSellers.sort(function(a, b){
+        return b.quantity - a.quantity;
+    });
+
+    let topFive = bestSellers.slice(0, 5);
+
+    let bestSellersHtml = "";
+    topFive.forEach(function(product, index){
+        bestSellersHtml += `<div class="flex justify-between py-1">
+            <p>${index + 1}. ${product.name}</p>
+            <p class="font-semibold">${product.quantity} sold</p>
+        </div>`;
+    });
+
+    let revenueByDateHtml = "";
+    Object.keys(revenueByDate).forEach(function(date){
+        revenueByDateHtml += `<div class="flex justify-between py-1">
+            <p>${date}</p>
+            <p class="font-semibold">₱${revenueByDate[date]}</p>
+        </div>`;
+    });
+
+    summaryPanel.innerHTML = `
+        <div>
+            <h3 class="font-bold text-lg border-b pb-1 mb-2">Best-Selling Products</h3>
+            ${bestSellersHtml}
+        </div>
+        <div>
+            <h3 class="font-bold text-lg border-b pb-1 mb-2">Revenue by Day</h3>
+            ${revenueByDateHtml}
+        </div>
+        <div class="text-right font-bold text-xl border-t pt-2">
+            Total Revenue: ₱${overallRevenue}
+        </div>
+    `;
+}
