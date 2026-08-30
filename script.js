@@ -284,7 +284,6 @@ summarizeBtn.addEventListener("click", function(){
     }
 
     let total = 0;
-
     cart.forEach(function(item){
         let subtotal = item.price * item.quantity;
         total += subtotal;
@@ -319,7 +318,7 @@ summarizeBtn.addEventListener("click", function(){
     document.getElementById("order-notes").value = "";
 
     receiptModal.classList.add("hidden");
-});
+})
 
 let summaryToggleBtn = document.getElementById("summary-toggle-btn");
 let summaryPanel = document.getElementById("summary-panel");
