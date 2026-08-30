@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Obsidian local workspace/cache
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
