@@ -9,7 +9,7 @@
 - [x] Basic interface
 
 ## Phase 2 — Demo 2
-**Status: In Active**
+**Status: Active**
 
 - [ ] Visual/UI polish
 - [ ] Login interface
