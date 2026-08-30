@@ -2,7 +2,7 @@
 
 ## Overview
 
-CHB System is an internal business management system being developed from an existing browser-based POS prototype.
+Hollow-Block Business System is an internal business management system being developed from an existing browser-based POS prototype.
 
 The long-term goal is to support the operations of a manufacturing/business establishment digitally, with appropriate users, roles, workflows, visibility, and automation.
 
