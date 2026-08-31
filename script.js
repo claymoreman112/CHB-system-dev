@@ -25,13 +25,12 @@ products.forEach(function(product, index,){
                 <button data-delete-index="${index}" class="rounded-lg bg-red-400 p-2 shadow hover:bg-red-300">Delete</button>
                 </div>`
     } else {
-    html += `<div class = "bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg flex flex-col sm:flex-row justify-between p-4 hover:bg-gray-200 mt-4">
-                <p class ="font-semibold text-center sm:text-left">${product.name}</p>
-                <p class = "text-sm text-gray-800">₱${product.price} / ${product.unit}</p>
-                <p class = "text-sm text-gray-800 font-semibold">Stock:${product.stock}</p>
-                    <button class = "rounded-lg bg-gray-300 p-2 shadow-[0_0_10px_rgba(0,0,0,0.2)] hover:bg-gray-400" data-id="${product.id}">Add</button>
-
-            </div>`
+    html += `<div class="item-card">
+    <p class="font-semibold text-center sm:text-left">${product.name}</p>
+    <p class="text-sm text-gray-800">₱${product.price} / ${product.unit}</p>
+    <p class="text-sm text-gray-800 font-semibold">Stock:${product.stock}</p>
+    <button class="btn btn-neutral" data-id="${product.id}">Add</button>
+</div>`
     }
 })
 container.innerHTML = html;

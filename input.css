@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+@layer components {
+ 
+  .panel {
+    @apply bg-white rounded-xl shadow-md p-4;
+  }
+
+  
+  .panel-header {
+    @apply text-black text-2xl font-serif font-bold border-b-2 border-gray-200
+           pb-2 bg-gray-400 rounded-xl p-2;
+  }
+
+ 
+  .item-card {
+    @apply bg-white rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.2)] flex flex-col
+           sm:flex-row justify-between gap-2 p-4 mt-4 hover:bg-gray-200;
+  }
+
+ 
+  .btn {
+    @apply rounded-lg p-2 shadow;
+  }
+  .btn-neutral { @apply bg-gray-300 hover:bg-gray-400; }
+  .btn-danger  { @apply bg-red-400 hover:bg-red-300; }
+}
+
+@layer components {
+  .form-input {
+    @apply border border-gray-300 rounded-lg p-2 w-full
+           focus:outline-none focus:ring-2 focus:ring-gray-400;
+  }
+  .btn-primary {
+    @apply bg-gray-600 text-white hover:bg-gray-700;
+  }
+}
