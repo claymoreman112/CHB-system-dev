@@ -26,7 +26,7 @@ products.forEach(function(product, index,){
                 </div>`
     } else {
     html += `<div class = "bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg flex flex-col sm:flex-row justify-between p-4 hover:bg-gray-200 mt-4">
-                <p class ="font-semibold text center sm:text-left font-arial">${product.name}</p>
+                <p class ="font-semibold text-center sm:text-left">${product.name}</p>
                 <p class = "text-sm text-gray-800">₱${product.price} / ${product.unit}</p>
                 <p class = "text-sm text-gray-800 font-semibold">Stock:${product.stock}</p>
                     <button class = "rounded-lg bg-gray-300 p-2 shadow-[0_0_10px_rgba(0,0,0,0.2)] hover:bg-gray-400" data-id="${product.id}">Add</button>
@@ -171,7 +171,7 @@ container.addEventListener("click", function(event){
             return;
         }
 
-        if(isNaN(newStock) || newStock <= 0){
+        if(isNaN(newStock) || newStock < 0){
             alert("Please enter a valid stock");
             return;
         }
@@ -185,8 +185,13 @@ container.addEventListener("click", function(event){
 
     }
 
-if(event.target.dataset.deleteIndex !== undefined){
+if(event.target.dataset.deleteIndex !== undefined){ 
     let index = event.target.dataset.deleteIndex
+    let product = products[index];
+
+    if(!confirm("Delete \"" + product.name + "\"? This cannot be undone.")){
+        return;
+    }
     products.splice(index, 1);
     renderProducts();
 }
@@ -195,7 +200,6 @@ if(event.target.dataset.deleteIndex !== undefined){
 
 
 function renderCart(){
-    let cartContainer = document.getElementById("cart-list");
     let cartHtml = "";
     let total = 0;
 
@@ -242,7 +246,6 @@ function renderOrderHistory(){
 let checkoutBtn = document.getElementById("checkout-btn");
 let receiptModal = document.getElementById("receipt-modal");
 let receiptList = document.getElementById("receipt-list");
-let newOrderBtn = document.getElementById("new-order-btn");
 let summarizeBtn = document.getElementById("summarize-order");
 
 
@@ -284,13 +287,22 @@ summarizeBtn.addEventListener("click", function(){
     }
 
     let total = 0;
+    let missingProducts = [];
     cart.forEach(function(item){
         let subtotal = item.price * item.quantity;
         total += subtotal;
 
         let product = products.find(function(p){ return p.id === item.productId; });
+        if(product === undefined){
+            missingProducts.push(item.name);
+            return; 
+        }
         product.stock -= item.quantity;
     });
+
+    if(missingProducts.length > 0){
+        alert("Item removed from catalog")
+    }
 
     renderProducts();
 
