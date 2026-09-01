@@ -7,12 +7,12 @@ Turn the existing POS prototype into a more polished second demo with login and 
 ## Tasks
 
 ### UI
-- [ ] Audit existing visual hierarchy
-- [ ] Improve spacing/typography
-- [ ] Improve navigation/sidebar
-- [ ] Improve buttons/forms/tables
-- [ ] Improve responsive behavior
-- [ ] Add consistent states/feedback
+- [x] Audit existing visual hierarchy
+- [x] Improve spacing/typography
+- [x] Improve navigation/sidebar
+- [x] Improve buttons/forms/tables
+- [x] Improve responsive behavior
+- [x] Add consistent states/feedback
 
 ### Authentication demo
 - [ ] Login page/interface
