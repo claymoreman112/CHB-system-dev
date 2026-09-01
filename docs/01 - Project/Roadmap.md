@@ -11,7 +11,7 @@
 ## Phase 2 — Demo 2
 **Status: Active**
 
-- [ ] Visual/UI polish
+- [x] Visual/UI polish
 - [ ] Login interface
 - [ ] Mock users
 - [ ] Basic roles

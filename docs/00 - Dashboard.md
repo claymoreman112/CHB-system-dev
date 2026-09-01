@@ -8,8 +8,8 @@
 
 ## Current focus
 
-- [ ] Audit existing POS UI
-- [ ] Establish visual system
+- [x] Audit existing POS UI
+- [x] Establish visual system
 - [ ] Build login interface
 - [ ] Add mock users
 - [ ] Add role-aware navigation
