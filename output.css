@@ -784,7 +784,7 @@
     font-weight: var(--font-weight-semibold);
     color: var(--color-slate-700);
   }
-  .badge {
+  //do you see this claude?  .badge {
     display: inline-block;
     border-radius: calc(infinity * 1px);
     padding-inline: calc(var(--spacing) * 2);
