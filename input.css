@@ -64,7 +64,6 @@
     @apply block text-sm font-semibold text-slate-700 mb-1;
   }
 
-  //do you see this claude?
 
   /* Optional, for later: stock-level badges (e.g. product list) */
   .badge      { @apply inline-block text-xs font-semibold px-2 py-0.5 rounded-full; }
