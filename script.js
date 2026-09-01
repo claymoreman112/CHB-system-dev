@@ -16,22 +16,22 @@ let cartContainer = document.getElementById("cart-list");
 function renderProducts(){
 let html = "";
 products.forEach(function(product, index,){
-    if(isAdminMode){
-        html += `<div class="bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg flex flex-col sm:flex-row justify-between items-right gap-2 p-4 hover:bg-gray-200 mt-4">
-                <input type="text" value="${product.name}" data-field="name" data-row-index="${index}" class="border rounded p-1 flex-1"/>
-                <input type="number" value="${product.price}" data-field="price" data-row-index="${index}" class="border rounded p-1 w-20"/>
-                <input type="number" value="${product.stock}" data-field="stock" data-row-index="${index}" class="border rounded p-1 w-20"/>
-                <button data-save-index="${index}" class="rounded-lg bg-gray-300 p-2 shadow hover:bg-gray-400">Save</button>
-                <button data-delete-index="${index}" class="rounded-lg bg-red-400 p-2 shadow hover:bg-red-300">Delete</button>
-                </div>`
-    } else {
-    html += `<div class="item-card">
-    <p class="font-semibold text-center sm:text-left">${product.name}</p>
-    <p class="text-sm text-gray-800">₱${product.price} / ${product.unit}</p>
-    <p class="text-sm text-gray-800 font-semibold">Stock:${product.stock}</p>
-    <button class="btn btn-neutral" data-id="${product.id}">Add</button>
+if(isAdminMode){
+    html += `<div class="item-card-edit">
+            <input type="text" value="${product.name}" data-field="name" data-row-index="${index}" class="form-input flex-1"/>
+            <input type="number" value="${product.price}" data-field="price" data-row-index="${index}" class="form-input w-20"/>
+            <input type="number" value="${product.stock}" data-field="stock" data-row-index="${index}" class="form-input w-20"/>
+            <button data-save-index="${index}" class="btn btn-sm btn-neutral">Save</button>
+            <button data-delete-index="${index}" class="btn btn-sm btn-danger">Delete</button>
+            </div>`
+} else {
+html += `<div class="item-card">
+<p class="font-semibold text-center sm:text-left">${product.name}</p>
+<p class="text-sm text-slate-600">₱${product.price} / ${product.unit}</p>
+<p class="text-sm text-slate-600 font-semibold">Stock: ${product.stock}</p>
+<button class="btn btn-neutral" data-id="${product.id}">Add</button>
 </div>`
-    }
+}
 })
 container.innerHTML = html;
 }
@@ -208,11 +208,11 @@ function renderCart(){
 
          
 
-        cartHtml += `<div class = " bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg  flex flex-col sm:flex-row justify-between p-4 hover:bg-gray-200 mt-4">
-            <p class = "text-xl font-semibold m-4">${item.name} (${item.quantity} ${item.unit})</p>
-            <p class = "text-2xl font-extrabold m-4">₱${subtotal}</p>
-            <button data-remove-index="${index}" class="text-red-600 font-bold p-2 rounded-lg text-2xl hover:bg-red-100">X</button>
-        </div>`
+       cartHtml += `<div class="item-card">
+    <p class="text-lg font-semibold">${item.name} (${item.quantity} ${item.unit})</p>
+    <p class="text-xl font-extrabold text-slate-800">₱${subtotal}</p>
+    <button data-remove-index="${index}" class="text-red-600 font-bold text-2xl rounded-full p-2 hover:bg-red-100 transition-colors duration-150">×</button>
+</div>`
     });
 
     cartContainer.innerHTML = cartHtml;
@@ -228,15 +228,15 @@ function renderOrderHistory(){
             return item.name + "(" + item.quantity + ")";
         }).join(",");
         
-        historyHtml += `<div class="p-4">
-        <div class="flex justify-between font-semibold">
-        <p>Order #${order.id}${order.orderName ? " - " + order.orderName : ""}</p>
-        <p>₱${order.total}</p>
-        </div>
-        <p class="text-sm text-gray-600">${order.date} • ${order.workerName} • ${order.paymentMethod}</p>
-        <p class="text-sm text-gray-800 mt-1">${itemsList}</p>
-        ${order.notes ? `<p class="text-sm text-gray-500 italic mt-1">Note: ${order.notes}</p>` : ""}
-        </div>`
+       historyHtml += `<div class="history-entry">
+<div class="flex justify-between font-semibold text-slate-800">
+<p>Order #${order.id}${order.orderName ? " - " + order.orderName : ""}</p>
+<p>₱${order.total}</p>
+</div>
+<p class="text-sm text-slate-500">${order.date} • ${order.workerName} • ${order.paymentMethod}</p>
+<p class="text-sm text-slate-700 mt-1">${itemsList}</p>
+${order.notes ? `<p class="text-sm text-slate-500 italic mt-1">Note: ${order.notes}</p>` : ""}
+</div>`
 
 
     })
@@ -381,31 +381,31 @@ function renderSummary(){
 
     let bestSellersHtml = "";
     topFive.forEach(function(product, index){
-        bestSellersHtml += `<div class="flex justify-between py-1">
-            <p>${index + 1}. ${product.name}</p>
-            <p class="font-semibold">${product.quantity} sold</p>
-        </div>`;
+      bestSellersHtml += `<div class="summary-row">
+    <p>${index + 1}. ${product.name}</p>
+    <p class="font-semibold text-slate-800">${product.quantity} sold</p>
+</div>`;
     });
 
     let revenueByDateHtml = "";
     Object.keys(revenueByDate).forEach(function(date){
-        revenueByDateHtml += `<div class="flex justify-between py-1">
-            <p>${date}</p>
-            <p class="font-semibold">₱${revenueByDate[date]}</p>
-        </div>`;
+        revenueByDateHtml += `<div class="summary-row">
+    <p>${date}</p>
+    <p class="font-semibold text-slate-800">₱${revenueByDate[date]}</p>
+</div>`;
     });
 
-    summaryPanel.innerHTML = `
-        <div>
-            <h3 class="font-bold text-lg border-b pb-1 mb-2">Best-Selling Products</h3>
-            ${bestSellersHtml}
-        </div>
-        <div>
-            <h3 class="font-bold text-lg border-b pb-1 mb-2">Revenue by Day</h3>
-            ${revenueByDateHtml}
-        </div>
-        <div class="text-right font-bold text-xl border-t pt-2">
-            Total Revenue: ₱${overallRevenue}
-        </div>
-    `;
+ summaryPanel.innerHTML = `
+    <div>
+        <h3 class="font-bold text-lg border-b border-slate-200 pb-1 mb-2 text-slate-800">Best-Selling Products</h3>
+        ${bestSellersHtml}
+    </div>
+    <div>
+        <h3 class="font-bold text-lg border-b border-slate-200 pb-1 mb-2 text-slate-800">Revenue by Day</h3>
+        ${revenueByDateHtml}
+    </div>
+    <div class="text-right font-bold text-xl border-t border-slate-200 pt-2 text-slate-800">
+        Total Revenue: ₱${overallRevenue}
+    </div>
+`;
 }
