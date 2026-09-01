@@ -201,10 +201,12 @@ if(event.target.dataset.deleteIndex !== undefined){
 function renderCart(){
     let cartHtml = "";
     let total = 0;
-
+        
     cart.forEach(function(item, index){
         let subtotal = item.price * item.quantity;
         total += subtotal;
+
+         
 
         cartHtml += `<div class = " bg-white shadow-[0_0_10px_rgba(0,0,0,0.2)] rounded-lg  flex flex-col sm:flex-row justify-between p-4 hover:bg-gray-200 mt-4">
             <p class = "text-xl font-semibold m-4">${item.name} (${item.quantity} ${item.unit})</p>
