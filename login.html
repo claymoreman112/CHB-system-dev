@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="output.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Hollow-Block System</title>
+</head>
+<body>
+    <div class="app-header">
+        <h1 class="app-title">Hollow-Block System</h1>
+    </div>
+
+    <div class="flex justify-center p-4 mt-4">
+        <div class="panel w-full max-w-sm space-y-4">
+            <div class="panel-header">
+                <span>Sign In</span>
+            </div>
+
+            <form id="login-form" class="space-y-3">
+                <div>
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-input" autocomplete="username" />
+                </div>
+                <div>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" autocomplete="current-password" />
+                </div>
+
+                <p id="login-error" class="hidden text-sm text-red-600 font-semibold"></p>
+
+                <button type="submit" class="btn btn-primary w-full">Log In</button>
+            </form>
+
+            <p class="text-xs text-slate-500 text-center">
+                Demo credentials only — not a production login system.
+            </p>
+        </div>
+    </div>
+
+    <script src="mock-users.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>
