@@ -15,11 +15,11 @@ Turn the existing POS prototype into a more polished second demo with login and 
 - [x] Add consistent states/feedback
 
 ### Authentication demo
-- [ ] Login page/interface
-- [ ] Mock users
-- [ ] Login validation
-- [ ] Session-like client state
-- [ ] Logout
+- [x] Login page/interface
+- [x] Mock users
+- [x] Login validation
+- [x] Session-like client state
+- [x] Logout
 - [ ] Role-aware navigation
 
 ### Quality
