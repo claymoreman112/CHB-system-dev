@@ -1,12 +1,80 @@
-let products = [
+// ===== localStorage keys =====
+const PRODUCTS_KEY = "chb_products";
+const PRODUCT_COUNTER_KEY = "chb_product_counter";
+const ORDER_HISTORY_KEY = "chb_order_history";
+const ORDER_COUNTER_KEY = "chb_order_counter";
+
+// Only used the very first time the app runs on a given browser
+// (i.e. localStorage has never been written to yet).
+const DEFAULT_PRODUCTS = [
     {id: 1, name: "Standard 4-inch Hollow-Blocks", price: 16, unit: "piece", stock: 500},
     {id: 2, name: "Standard 6-inch Hollow-Blocks", price: 18, unit: "piece", stock: 500},
     {id: 3, name: "Reinforced 4-inch Hollow-Blocks", price: 18, unit: "piece", stock: 500},
     {id: 4, name: "Reinforced 6-inch Hollow-Blocks", price: 20, unit: "piece", stock: 500},
     {id: 5, name: "Concrete Hollow-Blocks", price: 22, unit: "piece", stock: 500}
-]
+];
 
+function loadProducts(){
+    let raw = localStorage.getItem(PRODUCTS_KEY);
 
+    if(raw === null){
+        saveProducts(DEFAULT_PRODUCTS);
+        saveProductCounter(DEFAULT_PRODUCTS.length + 1);
+        return DEFAULT_PRODUCTS;
+    }
+
+    try{
+        return JSON.parse(raw);
+    } catch(error){
+        console.error("Corrupted product data in localStorage, resetting to defaults.", error);
+        saveProducts(DEFAULT_PRODUCTS);
+        saveProductCounter(DEFAULT_PRODUCTS.length + 1);
+        return DEFAULT_PRODUCTS;
+    }
+}
+
+function saveProducts(productsToSave){
+    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(productsToSave));
+}
+
+function loadProductCounter(){
+    let raw = localStorage.getItem(PRODUCT_COUNTER_KEY);
+    return raw === null ? DEFAULT_PRODUCTS.length + 1 : parseInt(raw);
+}
+
+function saveProductCounter(counter){
+    localStorage.setItem(PRODUCT_COUNTER_KEY, String(counter));
+}
+
+function loadOrderHistory(){
+    let raw = localStorage.getItem(ORDER_HISTORY_KEY);
+
+    if(raw === null){
+        return [];
+    }
+
+    try{
+        return JSON.parse(raw);
+    } catch(error){
+        console.error("Corrupted order history in localStorage, resetting.", error);
+        return [];
+    }
+}
+
+function saveOrderHistory(historyToSave){
+    localStorage.setItem(ORDER_HISTORY_KEY, JSON.stringify(historyToSave));
+}
+
+function loadOrderCounter(){
+    let raw = localStorage.getItem(ORDER_COUNTER_KEY);
+    return raw === null ? 1 : parseInt(raw);
+}
+
+function saveOrderCounter(counter){
+    localStorage.setItem(ORDER_COUNTER_KEY, String(counter));
+}
+
+let products = loadProducts();
 
 let container = document.getElementById("products-list");
 let cartContainer = document.getElementById("cart-list");
@@ -39,10 +107,10 @@ container.innerHTML = html;
 
 
 let cart = [];
-let orderHistory = [];
-let orderCounter = 1;
+let orderHistory = loadOrderHistory();
+let orderCounter = loadOrderCounter();
 let isAdminMode = false;
-let productCounter = 6;
+let productCounter = loadProductCounter();
 let isAddingProduct = false;
 
 let adminToggleBtn = document.getElementById("admin-toggle-btn");
@@ -100,6 +168,8 @@ createProductBtn.addEventListener("click", function(){
 
     products.push(newProduct);
     productCounter++;
+    saveProducts(products);
+    saveProductCounter(productCounter);
 
     document.getElementById("new-product-name").value = "";
     document.getElementById("new-product-price").value = "";
@@ -179,9 +249,9 @@ container.addEventListener("click", function(event){
         products[index].price = newPrice;
         products[index].stock = newStock;
 
+        saveProducts(products);
 
         renderProducts();
-
     }
 
 if(event.target.dataset.deleteIndex !== undefined){ 
@@ -192,6 +262,7 @@ if(event.target.dataset.deleteIndex !== undefined){
         return;
     }
     products.splice(index, 1);
+    saveProducts(products);
     renderProducts();
 }
 });
@@ -305,6 +376,7 @@ summarizeBtn.addEventListener("click", function(){
         alert("Item removed from catalog")
     }
 
+    saveProducts(products);
     renderProducts();
 
     let order = {
@@ -320,6 +392,8 @@ summarizeBtn.addEventListener("click", function(){
 
     orderHistory.push(order);
     orderCounter++;
+    saveOrderHistory(orderHistory);
+    saveOrderCounter(orderCounter);
     renderOrderHistory();
     renderSummary();
 

@@ -20,7 +20,7 @@ const mockUsers = [
         password: "manager456",
         displayName: "Manager Two",
         role: "manager",
-        canEditProducts: true,
+        canEditProducts: false,
     },
 
     {
