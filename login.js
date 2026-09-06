@@ -3,13 +3,6 @@ const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const loginError = document.getElementById("login-error");
 
-
-const DASHBOARD_BY_ROLE = {
-    admin: "admin.html",
-    manager: "manager.html",
-    cashier: "cashier.html"
-};
-
 loginForm.addEventListener("submit", function(event){
     event.preventDefault();
 
