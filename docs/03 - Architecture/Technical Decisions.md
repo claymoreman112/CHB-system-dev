@@ -72,7 +72,7 @@ Security
 
 
 
-### ADR-0034 — [Logout clears session only, not in-memory data]
+### ADR-004 — [Logout clears session only, not in-memory data]
 
 **Date:**
 September 2, 2026
