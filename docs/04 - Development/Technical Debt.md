@@ -4,7 +4,7 @@ Track issues worth fixing later but not blocking the current milestone.
 
 ## Template
 
-### TD-001 — [Title]
+### TD-001 — [`canEditProducts` bundling add+edit+delete, and the `DASHBOARD_BY_ROLE` map duplicated in `login.js` and `authguard.js`.]
 
 **Impact:**
 
@@ -14,4 +14,4 @@ Track issues worth fixing later but not blocking the current milestone.
 
 **Suggested future fix:**
 
-**Priority:** Low / Medium / High
+**Priority:** Medium 

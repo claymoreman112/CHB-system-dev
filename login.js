@@ -5,9 +5,9 @@ const loginError = document.getElementById("login-error");
 
 
 const DASHBOARD_BY_ROLE = {
-    admin: "index.html",
-    manager: "index.html",
-    cashier: "index.html"
+    admin: "admin.html",
+    manager: "manager.html",
+    cashier: "cashier.html"
 };
 
 loginForm.addEventListener("submit", function(event){
@@ -32,6 +32,7 @@ loginForm.addEventListener("submit", function(event){
 
     let session = {
         username: matchedUser.username,
+        displayName: matchedUser.displayName,
         role: matchedUser.role,
         canEditProducts: matchedUser.canEditProducts
     };

@@ -20,7 +20,7 @@ Turn the existing POS prototype into a more polished second demo with login and 
 - [x] Login validation
 - [x] Session-like client state
 - [x] Logout
-- [ ] Role-aware navigation
+- [x] Role-aware navigation
 
 ### Quality
 - [ ] Regression test POS

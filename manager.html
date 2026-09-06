@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="output.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager — Hollow-Block System</title>
+</head>
+<body data-role="manager">
+    <script src="authguard.js"></script>
+    <div class="app-header flex items-center justify-between p-4">
+        <div>
+            <h1 class="app-title">Hollow-Block System</h1>
+            <p class="text-sm text-slate-300">Manager dashboard</p>
+        </div>
+        <button id="logout-btn" class="btn btn-sm btn-neutral">Logout</button>
+    </div>
+
+    <div class="flex flex-col sm:flex-row w-full gap-6 p-4">
+
+        <div class="w-full panel">
+            <div class="panel-header">
+                <span>Products Catalog</span>
+                <div class="panel-header-actions">
+                    <button id="add-product-btn" class="hidden btn btn-sm btn-neutral">+ Add Product</button>
+                </div>
+            </div>
+            <div id="products-list" class="list-container"></div>
+            <div id="add-product-form" class="hidden form-panel mt-3">
+                <input type="text" id="new-product-name" placeholder="Product name" class="form-input"/>
+                <input type="number" id="new-product-price" placeholder="Price" class="form-input"/>
+                <input type="text" id="new-product-unit" placeholder="Unit (e.g. piece)" class="form-input"/>
+                <input type="number" id="new-product-stock" placeholder="Starting stock" class="form-input"/>
+                <button id="create-product-btn" class="btn btn-primary w-full">Create Product</button>
+            </div>
+        </div>
+
+        <div class="w-full panel m-2">
+            <div class="panel-header-compact">
+                <span>Order History</span>
+                <button id="summary-toggle-btn" class="btn btn-sm btn-neutral">View Summary</button>
+            </div>
+            <div id="summary-panel" class="hidden bg-slate-50 rounded-2xl border border-slate-200 p-4 space-y-4"></div>
+            <div id="order-history-list" class="list-container mt-2"></div>
+        </div>
+
+    </div>
+
+    <script src="storage.js"></script>
+    <script src="dashboard-common.js"></script>
+    <script src="manager.js"></script>
+</body>
+</html>

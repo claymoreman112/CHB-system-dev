@@ -1,12 +1,12 @@
-# Known Bugs
+	# Known Bugs
 
 ## Bug template
 
-### BUG-001 — [Title]
+### BUG-001 — [workerName/processedBy inconsistency]
 
-**Status:** Open / Investigating / Fixed / Won't fix
+**Status:** Open 
 
-**Severity:** Low / Medium / High / Critical
+**Severity:** Low 
 
 **Steps to reproduce:**
 

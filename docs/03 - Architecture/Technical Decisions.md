@@ -36,6 +36,7 @@ September 2, 2026
 ### Context
 `admin.html` / `manager.html` / `cashier.html` instead of one `index.html` with conditional rendering.
 ### Decision
+Implemented Phase 3b: admin.html/manager.html/cashier.html, each declaring `data-role` for authguard.js to enforce.
 
 ### Alternatives considered
 
