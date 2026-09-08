@@ -78,12 +78,14 @@ function renderOrderHistory(orders, container, options) {
             return item.name + "(" + item.quantity + ")";
         }).join(",");
 
+        let operatorDisplay = order.processedBy || order.workerName || "Unknown";
+
         html += `<div class="history-entry">
             <div class="flex justify-between font-semibold text-slate-800">
                 <p>Order #${order.id}${order.orderName ? " - " + order.orderName : ""}</p>
                 <p>₱${order.total}</p>
             </div>
-            <p class="text-sm text-slate-500">${order.date} • ${order.processedBy} • ${order.paymentMethod}</p>
+            <p class="text-sm text-slate-500">${order.date} • ${operatorDisplay} • ${order.paymentMethod}</p>
             <p class="text-sm text-slate-700 mt-1">${itemsList}</p>
             ${order.notes ? `<p class="text-sm text-slate-500 italic mt-1">Note: ${order.notes}</p>` : ""}
             ${showDelete ? `<div class="flex justify-end mt-2"><button data-delete-order-id="${order.id}" class="btn btn-sm btn-danger">Delete</button></div>` : ""}

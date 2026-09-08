@@ -92,3 +92,31 @@ Logging out should not clear in memory data such as order list and order history
 ### Consequences
 
 ### Related files / requirements
+
+
+### ADR-005 — [Retirement of `index.html` / `script.js`]
+
+**Date:**
+September 8, 2026
+
+**Status:** Accepted
+
+### Context
+ADR-002 established `admin.html` / `manager.html` / `cashier.html` as separate per-role dashboards, replacing the single `index.html` prototype. Once product browsing/editing, cart, checkout, and order history were fully reimplemented across the three dashboards, `index.html` and `script.js` had no remaining execution path.
+
+### Decision
+`index.html` and `script.js` were deleted in Phase 4, after confirming no HTML file, script, or doc still referenced them. Re-checked during this Phase 5 pass across all 18 files available in this session — no references remain.
+
+### Alternatives considered
+Keep them as a fallback/reference. Rejected — dead code with no execution path invites confusion about which file is "the real app."
+
+### Why
+Keeps `login.html` the unambiguous single entry point.
+
+### Consequences
+- `login.html` is now the sole entry point.
+- `package.json`'s `"main": "script.js"` became stale as a direct result — corrected in this same session.
+- The `workerName` field `script.js` used for order attribution is no longer written by any active code — only pre-existing `localStorage` records may still carry it (BUG-001; Roadmap's outstanding legacy-data item).
+
+### Related files / requirements
+`index.html` (deleted), `script.js` (deleted), ADR-002, `Known Bugs.md` BUG-001, `package.json`

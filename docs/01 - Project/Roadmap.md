@@ -12,13 +12,13 @@
 **Status: Active**
 
 - [x] Visual/UI polish
-- [ ] Login interface
-- [ ] Mock users
-- [ ] Basic roles
-- [ ] Role-aware navigation
-- [ ] Logout
-- [ ] Improve project structure where justified
-- [ ] Regression test existing POS
+- [x] Login interface
+- [x] Mock users
+- [x] Basic roles
+- [x] Role-aware navigation
+- [x] Logout
+- [x] Improve project structure where justified
+- [x] Regression test existing POS
 
 ## Phase 3 — Business foundations
 **Status: Planned**
